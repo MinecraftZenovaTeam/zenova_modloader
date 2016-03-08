@@ -146,7 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Zenova.cpp" />
+    <ClCompile Include="MinecraftAppLauncher.cpp" />
+    <ClCompile Include="ModLoader.cpp" />
+    <ClCompile Include="ThreadWorker.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="zenova.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MinecraftAppLauncher.h" />
+    <ClInclude Include="ModLoader.h" />
+    <ClInclude Include="ThreadWorker.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
