@@ -375,12 +375,12 @@ HRESULT LaunchApp(const std::wstring& strAppUserModelId, PDWORD pdwProcessId)
 	return hrResult;
 }
 
-// Basic char* to wchar* converter
 wchar_t* toWCHAR(const char* text)
 {
 	size_t size = strlen(text) + 1;
+	size_t output;
 	wchar_t* wa = new wchar_t[size];
-	mbstowcs(wa, text, size);
+	mbstowcs_s(&output, wa, size, text, size);
 	return wa;
 }
 
