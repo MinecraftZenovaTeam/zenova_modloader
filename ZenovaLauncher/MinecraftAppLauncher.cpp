@@ -43,18 +43,10 @@ HRESULT MinecraftAppLauncher::LaunchApplicationAndInjectMods(PDWORD processId_pt
 
 				/* Set thread priority to the highest priority to reduce the amount of context switching */
 				SetThreadPriority(hInjectModsThread, THREAD_PRIORITY_TIME_CRITICAL);
-
-				/* Initialize the application with mods */
-				result = spAppActivationManager->ActivateApplication(MINECRAFT_APP_NAME, NULL, AO_NONE, processId_ptr);
-
-				/* Terminate the search thread */
-				TerminateThread(hInjectModsThread, S_OK);
 			}
-			else
-			{
-				/* Initialize the application without mods */
-				result = spAppActivationManager->ActivateApplication(MINECRAFT_APP_NAME, NULL, AO_NONE, processId_ptr);
-			}
+
+			/* Initialize the application with mods */
+			result = spAppActivationManager->ActivateApplication(MINECRAFT_APP_NAME, NULL, AO_NONE, processId_ptr);
 		}
 	}
 
@@ -118,6 +110,7 @@ DWORD WINAPI MinecraftAppLauncher::InjectMods_Threaded(LPVOID lpParameter)
 
 	std::cout << "Launched Minecraft.Win10.DX11.exe (" << _processId << ") and paused execution\n";
 
+	/* Load mods */
 	if (SUCCEEDED(ModLoader::InjectMods(_processId)))
 	{
 		std::cout << "Successfully injected mods into Minecraft.Win10.DX11.exe (" << _processId << ")\n";
