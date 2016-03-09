@@ -154,9 +154,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MinecraftAppLauncher.h" />
+    <ClInclude Include="MinHook.h" />
     <ClInclude Include="ModLoader.h" />
     <ClInclude Include="ThreadWorker.h" />
     <ClInclude Include="utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\libMinHook-x64-v140-mtd.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include <Windows.h>
 
+#include "utils.h"
 #include "ModLoader.h"
 
 BOOL ModLoader::InjectDLL(DWORD dwProcessId, std::string dllPath)
@@ -33,16 +34,6 @@ BOOL ModLoader::InjectDLL(DWORD dwProcessId, std::string dllPath)
 	/* Create a remote thread that invokes LoadLibrary for our DLL */
 	HANDLE hRemoteThread = CreateRemoteThread(hProc, NULL, 0, (LPTHREAD_START_ROUTINE)hLocLoadLibrary, hRemoteMem, 0, NULL);
 
-	/* Wait for the thread to finish */
-	/* BOOL res = TRUE;
-	if (hRemoteThread)
-	{
-		res = (BOOL)WaitForSingleObject(hRemoteThread, 10000) != WAIT_TIMEOUT;
-	}
-	// Free the memory created on the other process
-	VirtualFreeEx(hProc, hRemoteMem, dll.size(), MEM_RELEASE); */
-
-	/* Release the handle to the other process */
 	CloseHandle(hProc);
 
 	return TRUE;
@@ -50,7 +41,7 @@ BOOL ModLoader::InjectDLL(DWORD dwProcessId, std::string dllPath)
 
 HRESULT ModLoader::InjectMods(DWORD dwProcessId)
 {
-	/* TODO: load mods */
+	InjectDLL(dwProcessId, Util::GetMinecraftAppDataPath() + "mods\\texturepack.dll");
 
 	return S_OK;
 }

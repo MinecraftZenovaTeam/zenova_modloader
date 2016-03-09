@@ -105,33 +105,36 @@ DWORD WINAPI MinecraftAppLauncher::InjectMods_Threaded(LPVOID lpParameter)
 
 	if (_processId == 0)
 	{
-		printf("%s\n", "Unable to find main Minecraft module (Minecraft.Win10.DX11.exe)");
+		std::cout << "Unable to find main Minecraft module (Minecraft.Win10.DX11.exe)\n";
 
 		return E_ABORT;
 	}
 
-	if (!ThreadWorker::SetModuleThreadState(_processId, MINECRAFT_MODULE_NAME, THREAD_STATE_SUSPENDED))
+	std::cout << "Suspending Minecraft threads...\n";
+	if (!ThreadWorker::SetModuleThreadState(_processId, MINECRAFT_MODULE_NAME, ThreadWorker::ThreadState::THREAD_SUSPENDED))
 	{
 		return E_ABORT;
 	}
-	
-	printf("Launched Minecraft.Win10.DX11.exe (%d) and paused execution\n", _processId);
+
+	std::cout << "Launched Minecraft.Win10.DX11.exe (" << _processId << ") and paused execution\n";
 
 	if (SUCCEEDED(ModLoader::InjectMods(_processId)))
 	{
-		printf("%s\n", "Successfully injected mods into Minecraft");
+		std::cout << "Successfully injected mods into Minecraft.Win10.DX11.exe (" << _processId << ")\n";
 	}
 	else
 	{
-		printf("%s\n", "One or more errors with injecting mods. Aborting.");
+		std::cout << "One or more errors with injecting mods. Aborting.\n";
 	}
 
-	if (!ThreadWorker::SetModuleThreadState(_processId, MINECRAFT_MODULE_NAME, THREAD_STATE_RUNNING))
+	std::cout << "Resuming Minecraft threads...\n";
+	if (!ThreadWorker::SetModuleThreadState(_processId, MINECRAFT_MODULE_NAME, ThreadWorker::ThreadState::THREAD_RUNNING))
 	{
 		return E_ABORT;
 	}
 
-	printf("Resumed Minecraft.Win10.DX11.exe (%d)\n", _processId);
+	std::cout << "Resumed Minecraft.Win10.DX11.exe (" << _processId << ")\n";
+	system("PAUSE");
 
 	return S_OK;
 }

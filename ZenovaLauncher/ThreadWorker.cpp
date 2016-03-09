@@ -3,9 +3,6 @@
 
 #include "ThreadWorker.h"
 
-#define STATUS_SUCCESS 0
-#define ThreadQuerySetWin32StartAddress 9
-
 /* typedef for Windows function type */
 typedef NTSTATUS(NTAPI* NTQUERYINFOTHREAD)(HANDLE, LONG, PVOID, ULONG, PULONG);
 
@@ -28,11 +25,12 @@ std::wstring ThreadWorker::GetThreadOwnerModule(DWORD dwProcId, HANDLE hThread, 
 		hCurrentProcess = GetCurrentProcess();
 		if (DuplicateHandle(hCurrentProcess, hThread, hCurrentProcess, &hNewThreadHandle, THREAD_QUERY_INFORMATION, FALSE, 0))
 		{
-			ntStatus = NtQueryInformationThread(hNewThreadHandle, ThreadQuerySetWin32StartAddress, &dwptrThreadStartAddr, sizeof(DWORD_PTR), NULL);
+			/* 9 = ThreadQuerySetWin32StartAddress */
+			ntStatus = NtQueryInformationThread(hNewThreadHandle, 9, &dwptrThreadStartAddr, sizeof(DWORD_PTR), NULL);
 			*pThreadStartAddr = dwptrThreadStartAddr;
 			CloseHandle(hNewThreadHandle);
 
-			if (ntStatus != STATUS_SUCCESS)
+			if (ntStatus != 0) /* 0 = success */
 			{
 				return L"";
 			}
