@@ -6,7 +6,6 @@
 #include <aclapi.h>
 #include <shellapi.h>
 
-#include "MinecraftAppLauncher.h"
 #include "ProcessUtils.h"
 #include "utils.h"
 
